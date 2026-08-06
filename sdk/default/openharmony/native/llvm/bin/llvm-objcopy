@@ -1,0 +1,17 @@
+#!/bin/bash
+# llvm-objcopy wrapper: 兼容 LLVM 的 -o output 语法，转给 GNU objcopy
+OUT=""
+ARGS=()
+while [ $# -gt 0 ]; do
+  if [ "$1" = "-o" ] && [ $# -gt 1 ]; then
+    shift; OUT="$1"
+  else
+    ARGS+=("$1")
+  fi
+  shift
+done
+if [ -n "$OUT" ]; then
+  exec /usr/bin/objcopy "${ARGS[@]}" "$OUT"
+else
+  exec /usr/bin/objcopy "${ARGS[@]}"
+fi

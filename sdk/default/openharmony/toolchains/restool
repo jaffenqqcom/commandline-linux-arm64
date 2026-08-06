@@ -1,0 +1,3 @@
+#!/bin/sh
+# restool wrapper - delegates to Node.js implementation
+exec node "$(dirname "$0")/restool-wrapper.js" "$@"

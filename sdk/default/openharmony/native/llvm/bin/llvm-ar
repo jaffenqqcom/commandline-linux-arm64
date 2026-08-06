@@ -1,0 +1,4 @@
+#!/bin/bash
+# Use system ar as llvm-ar for OHOS cross-compilation
+# (GNU ar works fine as a replacement for llvm-ar in Rust builds)
+exec /usr/bin/ar "$@"

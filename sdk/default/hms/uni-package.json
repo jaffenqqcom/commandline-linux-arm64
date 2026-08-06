@@ -1,0 +1,10 @@
+{
+  "apiVersion": "24",
+  "displayName": "HMS",
+  "meta": {
+    "metaVersion": "3.0.0"
+  },
+  "path": "hms",
+  "releaseType": "Release",
+  "version": "6.1.1.125"
+}

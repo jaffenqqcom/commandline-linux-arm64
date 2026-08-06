@@ -1,0 +1,6 @@
+#!/bin/bash
+# box64 wrapper for x86-64 profdump on arm64 (self-contained, portable)
+SELF_DIR="$(cd "$(dirname "$0")" && pwd)"
+BOX64_DIR="$SELF_DIR/../../../../../../../../../../box64"
+export BOX64_LD_LIBRARY_PATH="$BOX64_DIR/x64lib"
+exec "$BOX64_DIR/box64" "$SELF_DIR/profdump.orig" "$@"

@@ -1,0 +1,14 @@
+#!/bin/bash
+# arm64 clang wrapper (self-contained, portable)
+SELF_DIR="$(cd "$(dirname "$0")" && pwd)"
+NDK="$SELF_DIR/../.."
+SYSROOT="$NDK/sysroot"
+LLVM_LIB="$NDK/llvm/lib/aarch64-linux-ohos"
+exec /usr/bin/clang \
+    --target=aarch64-unknown-linux-ohos \
+    --sysroot="$SYSROOT" \
+    -I"$SYSROOT/usr/include" \
+    -L"$LLVM_LIB" \
+    -Wno-implicit-function-declaration \
+    -resource-dir "$NDK/llvm/lib/clang/15.0.4" \
+    "$@"

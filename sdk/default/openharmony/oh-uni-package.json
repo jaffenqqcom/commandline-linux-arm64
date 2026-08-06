@@ -1,0 +1,10 @@
+{
+  "apiVersion": "24",
+  "displayName": "HarmonyOS",
+  "meta": {
+    "metaVersion": "3.0.0"
+  },
+  "path": "HarmonyOS",
+  "releaseType": "Release",
+  "version": "6.1.1.125"
+}

@@ -3,5 +3,5 @@
 # The arm64 toolchain ships no real restool binary, so the x64 one is emulated via box64.
 BOX64_DIR="/mnt/linux_share/workspace/commandline-linux-arm64/box64"
 export BOX64_LD_LIBRARY_PATH="$BOX64_DIR/x64lib"
-REAL="/mnt/linux_share/workspace/commandline-tools-linux-x64-6.1.1.300/command-line-tools/sdk/default/openharmony/toolchains/restool"
+REAL="$(cd "$(dirname "$0")" && pwd)/restool.x86_64"
 exec "$BOX64_DIR/box64" "$REAL" "$@"

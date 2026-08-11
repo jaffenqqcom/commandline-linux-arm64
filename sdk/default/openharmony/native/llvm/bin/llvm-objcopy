@@ -1,17 +1,23 @@
 #!/bin/bash
-# llvm-objcopy wrapper: 兼容 LLVM 的 -o output 语法，转给 GNU objcopy
+# llvm-objcopy wrapper: use box64 to run the x86-64 llvm-objcopy on arm64,
+# and convert the LLVM-style "-o <file>" / "-o<file>" output flag into a
+# positional output argument (neither llvm-objcopy nor GNU objcopy accepts -o).
+SELF_DIR="$(cd "$(dirname "$0")" && pwd)"
+BOX64_DIR="$SELF_DIR/../../../../../../box64"
+export BOX64_LD_LIBRARY_PATH="$BOX64_DIR/x64lib"
+REAL="$SELF_DIR/llvm-objcopy.x86_64.bak"
 OUT=""
 ARGS=()
 while [ $# -gt 0 ]; do
-  if [ "$1" = "-o" ] && [ $# -gt 1 ]; then
-    shift; OUT="$1"
-  else
-    ARGS+=("$1")
-  fi
+  case "$1" in
+    -o) shift; if [ $# -gt 0 ]; then OUT="$1"; fi ;;
+    -o*) OUT="${1#-o}" ;;
+    *) ARGS+=("$1") ;;
+  esac
   shift
 done
 if [ -n "$OUT" ]; then
-  exec /usr/bin/objcopy "${ARGS[@]}" "$OUT"
+  exec "$BOX64_DIR/box64" "$REAL" "${ARGS[@]}" "$OUT"
 else
-  exec /usr/bin/objcopy "${ARGS[@]}"
+  exec "$BOX64_DIR/box64" "$REAL" "${ARGS[@]}"
 fi

@@ -1,0 +1,21 @@
+#!/bin/bash
+# arm64 clang/clang++ wrapper (self-contained, portable)
+# 依据调用名自动选择 C(clang) 或 C++(clang++) 编译器
+SELF_DIR="$(cd "$(dirname "$0")" && pwd)"
+NDK="$SELF_DIR/../.."
+SYSROOT="$NDK/sysroot"
+CXX_HEADERS="$NDK/llvm/include/libcxx-ohos/include/c++/v1"
+LLVM_LIB="$NDK/llvm/lib/aarch64-linux-ohos"
+case "$(basename "$0")" in
+  *++*) CC="/usr/bin/clang++" ;;
+  *)    CC="/usr/bin/clang" ;;
+esac
+exec "$CC" \
+    --target=aarch64-unknown-linux-ohos \
+    --sysroot="$SYSROOT" \
+    -I"$CXX_HEADERS" \
+    -I"$SYSROOT/usr/include" \
+    -L"$LLVM_LIB" \
+    -Wno-implicit-function-declaration \
+    -resource-dir "$NDK/llvm/lib/clang/15.0.4" \
+    "$@"

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# wrapper: 指向本机 node（/usr/bin/node, v20.18.2），替代 commandline 工具链自带的 node
+exec /usr/bin/node "$@"

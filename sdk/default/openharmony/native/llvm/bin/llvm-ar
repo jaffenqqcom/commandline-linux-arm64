@@ -1,4 +1,8 @@
 #!/bin/bash
-# Use system ar as llvm-ar for OHOS cross-compilation
-# (GNU ar works fine as a replacement for llvm-ar in Rust builds)
-exec /usr/bin/ar "$@"
+# llvm-ar / llvm-ranlib wrapper: 按调用名选用系统 ar 或 ranlib。
+# GNU ar 兼容多数 Rust C crate 的归档参数（qc 等）；ranlib 角色走系统 ranlib，
+# 否则 ranlib 调用（ar <archive>）会被 GNU ar 当成非法选项报错。
+case "$(basename "$0")" in
+  *ranlib*) exec /usr/bin/ranlib "$@" ;;
+  *) exec /usr/bin/ar "$@" ;;
+esac

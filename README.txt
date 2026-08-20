@@ -29,6 +29,20 @@ apiVersion   : 24
   1、下载原始包：从华为开发者网站下载原始包Command Line Tools for Linux(x86) 6.1.1.300（2.0GB）并解压
   2、在linux下，将本文件夹复制覆盖解压后的文件夹，就完成了替换。
   3、********因为tool/node/bin/node文件太大，无法上传到github，所以请使用本机的node********
+  4、复制后需检查以下 wrapper 脚本引用的本机程序路径，按新机器实际环境修改
+     （wrapper 脚本内部硬编码了本机绝对路径）：
+     - sdk/default/openharmony/native/llvm/bin/clang-15
+         内部调用 /usr/bin/clang（C）与 /usr/bin/clang++（C++，clang 17），
+         并注入 OHOS 交叉编译参数。若新机器路径不同，修改脚本中 CC / CXX 两行。
+         （clang、clang++、clang-cl、clang-cpp 是它的软链接，无需改动）
+     - sdk/default/openharmony/native/llvm/bin/llvm-ar
+         内部调用 /usr/bin/ar 与 /usr/bin/ranlib（GNU binutils）。若新机器
+         路径不同，修改脚本中两处 exec 的路径。
+         （llvm-ranlib、llvm-lib 是它的软链接，无需改动）
+    - tool/node/bin/node
+         修改为指向新机器的node二进制程序的路径
+     - 无需修改：llvm-objcopy / llvm-strip、toolchains/restool 是 box64
+       wrapper，引用工具链内部的 *.x86_64.bak / *.x86_64，相对路径自动解析。
 
 三、修改内容（相对 linux-x64 原版）
 -------------------------------------------------------------------------
